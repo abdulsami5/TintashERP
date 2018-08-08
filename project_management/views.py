@@ -14,3 +14,14 @@ def user_projects(request):
     user_projects = UserProject.objects.filter(employee=user_id)
     user_projects_serializer = UserProjectSerializer(user_projects, many=True)
     return Response({"user_projects":user_projects_serializer.data},status=status.HTTP_200_OK)
+
+@csrf_exempt
+@api_view(['POST',])
+def employee_project_request (request):
+    """This method or api function will create a user request to be added or removed from a particular project"""
+    user_project_request_serializer = UserProjectRequestSerializer(data=request.data)
+    if user_project_request_serializer.is_valid():
+        user_project_request_serializer.save()
+        return Response({"message":"Request added successfully"},status = status.HTTP_201_CREATED)
+    else:
+        return Response({"message":user_project_request_serializer.errors},status = status.HTTP_403_FORBIDDEN)
