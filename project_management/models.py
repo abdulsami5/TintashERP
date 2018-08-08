@@ -1,4 +1,7 @@
 from django.db import models
+from Users.models import *
+from project.models import *
+
 
 class UserProject(models.Model):
     """This model is association class between user and projects"""
