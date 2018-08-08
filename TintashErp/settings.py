@@ -148,3 +148,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = "660776386404-a67luugfn3ej0qsqfc5m23ae1igss3s8.apps.googleusercontent.com"
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = "teYUdaQ2hIDMsdtkG7uuYTW9"
+
+
+SOCIAL_AUTH_USER_MODEL = 'Users.User'
