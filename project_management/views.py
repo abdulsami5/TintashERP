@@ -64,3 +64,15 @@ def reject_request(request):
         return Response(status=status.HTTP_204_NO_CONTENT)
     except UserProjectRequest.DoesNotExist:
         return Response({"message": "Record not found"},status=status.HTTP_404_NOT_FOUND)
+
+@csrf_exempt
+@api_view(['POST'])
+def project_all_requests(request):
+    """This api end point will return all pending requests for a project that are yet to be approved or rejected, taking project_id as input"""
+    data = request.data
+    project_id = data["project_id"] #Make it get and put in try catch
+    user_project_requests = UserProjectRequest.objects.filter(id=project_id,status='')
+    user_project_request_serializer = UserProjectRequestSerializer(user_project_requests, many=True)
+    if user_project_request_serializer.data:
+        return Response({"Requests":user_project_request_serializer.data},status=status.HTTP_200_OK)
+    return Response({"message": "Record not found"},status=status.HTTP_404_NOT_FOUND)

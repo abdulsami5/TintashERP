@@ -7,4 +7,5 @@ urlpatterns = [
     path('employee_requests_all',views.employee_requests_all),
     path('accept_request',views.accept_request),
     path('reject_request',views.reject_request),
+    path('project_all_requests',views.project_all_requests)
 ]
