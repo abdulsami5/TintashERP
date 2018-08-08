@@ -28,3 +28,11 @@ class LogHoursApiView(APIView):
             loghours_serializer = LogHoursSerializer(logohours, many=True)
         return Response({"data":loghours_serializer.data})
 
+    def post(self,request,format=None):
+      """ This ApiView function will be used to create new loghours entery for an employee"""
+      loghours_serializer = LogHoursSerializer(data=request.data)
+      if loghours_serializer.is_valid():
+        loghours_serializer.save()
+        return Response({"message":"Loghours successfully added"},status = status.HTTP_201_CREATED)
+      else:
+          return Response({"message":loghours_serializer.errors},status = status.HTTP_403_FORBIDDEN)
