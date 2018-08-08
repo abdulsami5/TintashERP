@@ -43,3 +43,13 @@ class ProjectApiView(APIView):
                 return Response(project_serializer.errors)
         except Project.DoesNotExist:
             return Response({"message : Bad Request"},status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self,request,format=None):
+        """This method will be used to delete a particular project"""
+        try:
+            project_id = request.data.get("id")
+            project = Project.objects.get(id=project_id)
+            project.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except:
+            return Response({"message : Bad Request"},status=status.HTTP_400_BAD_REQUEST)
