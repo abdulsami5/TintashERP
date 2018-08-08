@@ -25,3 +25,12 @@ def employee_project_request (request):
         return Response({"message":"Request added successfully"},status = status.HTTP_201_CREATED)
     else:
         return Response({"message":user_project_request_serializer.errors},status = status.HTTP_403_FORBIDDEN)
+
+@csrf_exempt
+@api_view(['GET',])
+def employee_requests_all(request):
+    """This method or api function will return all user_requets of employee, given employee_id as parameter"""
+    user_id = request.GET.get('user_id')
+    user_requests = UserProjectRequest.objects.filter(employee=user_id)
+    user_project_request_serializer = UserProjectRequestSerializer(user_requests, many=True)
+    return Response({"user_requests":user_project_request_serializer.data},status=status.HTTP_200_OK)
