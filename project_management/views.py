@@ -49,3 +49,18 @@ def accept_request(request):
     except UserProjectRequest.DoesNotExist:
         return Response({"message": "Record not found"},status=status.HTTP_404_NOT_FOUND)
 
+@csrf_exempt
+@api_view(['POST'])
+def reject_request(request):
+    """ This method or api is for pm to reject request for employees to be added to project, it takes request_id and reason as input"""
+    data = request.data
+    request_id = data["request_id"]
+    reason = data['reason']
+    try:
+        user_project_request = UserProjectRequest.objects.get(id=request_id)
+        user_project_request.status = "rejected"
+        user_project_request.reason = reason
+        user_project_request.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    except UserProjectRequest.DoesNotExist:
+        return Response({"message": "Record not found"},status=status.HTTP_404_NOT_FOUND)
