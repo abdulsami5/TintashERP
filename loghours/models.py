@@ -3,7 +3,7 @@ from Users.models import *
 from project.models import *
 
 
-class ProjectLoghour(models.Model):
+class ProjectLogHour(models.Model):
     """Model to represent the weekly loghours for a project"""
     date = models.DateField(null=True, blank=True)
     pm_approval = models.BooleanField()
@@ -19,8 +19,5 @@ class Loghours(models.Model):
     am_approval = models.BooleanField()
     hourly_rate = models.FloatField(null=True)
     is_valid = models.BooleanField()
-    employee = models.ForeignKey(User,blank=True,on_delete=models.DO_NOTHING )
-    project_loghour = models.ForeignKey(ProjectLoghour,on_delete=models.CASCADE)
-
-
-
+    employee = models.ForeignKey(User,blank=True,on_delete=models.DO_NOTHING)
+    project_loghour = models.ForeignKey(ProjectLogHour,on_delete=models.CASCADE, null=True)
