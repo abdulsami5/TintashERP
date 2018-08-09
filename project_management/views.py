@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 from .models import *
+from project.models import *
 from .serializers import *
 # Create your views here.
 @csrf_exempt
@@ -42,12 +43,14 @@ def request_response(request):
     data = request.data
     request_id = data.get("request_id")
     request_response = data.get("response","none")
-    print(request_response)
     try:
         user_project_request = UserProjectRequest.objects.get(id=request_id)
         if request_response.lower() == 'accept':
             user_project_request.status = "accepted"
             user_project_request.save()
+            user_project = UserProject.objects.create(status="working", employee=\
+                user_project_request.employee, project = user_project_request.project)
+            user_project.save()
             return Response(status=status.HTTP_204_NO_CONTENT)
         elif  request_response.lower() == 'reject':
             user_project_request.status = "rejected"
