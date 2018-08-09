@@ -6,5 +6,5 @@ urlpatterns = [
     path('employee_project_request',views.employee_project_request),
     path('employee_requests_all',views.employee_requests_all),
     path('request_response', views.request_response),
-    path('project_all_requests',views.project_all_requests)
+    path('all_pending_project_requests',views.all_pending_project_requests)
 ]

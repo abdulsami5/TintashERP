@@ -60,11 +60,10 @@ def request_response(request):
 
 
 @csrf_exempt
-@api_view(['POST'])
-def project_all_requests(request):
+@api_view(['GET'])
+def all_pending_project_requests(request):
     """This api end point will return all pending requests for a project that are yet to be approved or rejected, taking project_id as input"""
-    data = request.data
-    project_id = data["project_id"] #Make it get and put in try catch
+    project_id = request.GET.get("project_id")
     user_project_requests = UserProjectRequest.objects.filter(id=project_id,status='')
     user_project_request_serializer = UserProjectRequestSerializer(user_project_requests, many=True)
     if user_project_request_serializer.data:
