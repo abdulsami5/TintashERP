@@ -37,33 +37,27 @@ def employee_requests_all(request):
 
 @csrf_exempt
 @api_view(['POST'])
-def accept_request(request):
+def request_response(request):
     """ This method or api is for pm to accept request for employees to be added to project"""
     data = request.data
-    request_id = data["request_id"]
+    request_id = data.get("request_id")
+    request_response = data.get("response","none")
+    print(request_response)
     try:
-        request = UserProjectRequest.objects.get(id=request_id)
-        request.status = "accpted"
-        request.save()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        user_project_request = UserProjectRequest.objects.get(id=request_id)
+        if request_response.lower() == 'accept':
+            user_project_request.status = "accepted"
+            user_project_request.save()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        elif  request_response.lower() == 'reject':
+            user_project_request.status = "rejected"
+            user_project_request.reason = data.get("reason", "No reason stated.")
+            user_project_request.save()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response({"message": "correct parameters not found or parameter missing"},status=status.HTTP_400_BAD_REQUEST)
     except UserProjectRequest.DoesNotExist:
         return Response({"message": "Record not found"},status=status.HTTP_404_NOT_FOUND)
 
-@csrf_exempt
-@api_view(['POST'])
-def reject_request(request):
-    """ This method or api is for pm to reject request for employees to be added to project, it takes request_id and reason as input"""
-    data = request.data
-    request_id = data["request_id"]
-    reason = data['reason']
-    try:
-        user_project_request = UserProjectRequest.objects.get(id=request_id)
-        user_project_request.status = "rejected"
-        user_project_request.reason = reason
-        user_project_request.save()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-    except UserProjectRequest.DoesNotExist:
-        return Response({"message": "Record not found"},status=status.HTTP_404_NOT_FOUND)
 
 @csrf_exempt
 @api_view(['POST'])
