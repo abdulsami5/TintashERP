@@ -13,4 +13,12 @@ class Loghours(models.Model):
     hourly_rate = models.FloatField(null=True)
     is_valid = models.BooleanField()
     employee = models.ForeignKey(User,blank=True,on_delete=models.DO_NOTHING )
-    project = models.ForeignKey(Project,on_delete=models.DO_NOTHING)
+    project_loghour = models.ForeignKey(ProjectLoghour,on_delete=models.CASCADE)
+
+class ProjectLoghour(Models.Model):
+    """Model to represent the weekly loghours for a project"""
+    date = models.DateField(null=True, blank=True)
+    pm_approval = models.BooleanField()
+    am_approval = models.BooleanField()
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+
