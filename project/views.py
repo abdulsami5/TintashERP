@@ -4,6 +4,12 @@ from rest_framework.response import Response
 from rest_framework import status
 from .serializers import ProjectSerializer
 from .models import Project
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.decorators import api_view
+from django.db.models import Q
+import datetime
+
+
 
 class ProjectApiView(APIView):
     """Project APIview to handle all restfull requests"""
@@ -53,3 +59,12 @@ class ProjectApiView(APIView):
             return Response(status=status.HTTP_204_NO_CONTENT)
         except:
             return Response({"message : Bad Request"},status=status.HTTP_400_BAD_REQUEST)
+
+@csrf_exempt
+@api_view(['GET',])
+def get_active_projects(request):
+    """This method is to to get all the projects that are currently active"""
+    today = datetime.datetime.today()
+    projects = Project.objects.filter(Q(end_date__gte=today)|Q(end_date=None))
+    project_serializer = ProjectSerializer(projects, many=True)
+    return Response({"data":project_serializer.data})
