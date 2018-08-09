@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'oauth2_provider',
     'rest_framework_social_oauth2',
     'loghours',
+    'project_management',
 ]
 
 MIDDLEWARE = [

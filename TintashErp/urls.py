@@ -21,4 +21,5 @@ urlpatterns = [
     path('api/', include('project.urls')),
     path('auth/', include('rest_framework_social_oauth2.urls')),
     path('api/',include('loghours.urls')),
+    path('api/',include('project_management.urls')),
 ]
