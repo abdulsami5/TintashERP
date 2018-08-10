@@ -7,7 +7,7 @@ class LogHoursSerializer(serializers.ModelSerializer):
     class Meta:
         """Meta class to define model and fields to serialize"""
         model = Loghours
-        fields = ('id','hours_logged','required_hours','pm_approval','am_approval','hourly_rate','is_valid','employee','project_log_hour',)
+        fields = ('id','hours_logged','required_hours','pm_approval','am_approval','hourly_rate','is_valid','employee','project_loghour',)
 
 class ProjectLogHourSerializer(serializers.ModelSerializer):
     """Serializer class for ProjectLogHour model"""
