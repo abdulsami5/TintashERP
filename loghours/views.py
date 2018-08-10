@@ -53,4 +53,12 @@ class ProjectLogHourApiView(APIView):
         else:
             return Response({"message : Bad Request"},status=status.HTTP_400_BAD_REQUEST)
 
+    def post(self, request, format=None):
+        """ This ApiView function will be used to create new ProjectLogHours entry for a project"""
+        project_loghour = ProjectLogHourSerializer(data=request.data)
+        if project_loghour.is_valid():
+            project_loghour.save()
+            return Response({"message":"Project Log Hour added"}, status=status.HTTP_201_CREATED)
+        else:
+          return Response({"message":project_loghour.errors},status = status.HTTP_403_FORBIDDEN)
 
