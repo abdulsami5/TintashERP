@@ -1,6 +1,6 @@
 from django.db import models
-from Users.models import *
-from project.models import *
+from Users.models import User
+from project.models import Project
 
 
 class ProjectLogHour(models.Model):
