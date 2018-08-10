@@ -37,3 +37,20 @@ class LogHoursApiView(APIView):
       else:
           return Response({"message":loghours_serializer.errors},status = status.HTTP_403_FORBIDDEN)
 
+class ProjectLogHourApiView(APIView):
+    """ApiView for Projectloghours"""
+    def get(self, request, format=None):
+        """This metthod will return projectlogohours of a project given project_id as parameter"""
+        project_id = request.GET.get('project_id')
+        if project_id:
+            project_loghour = ProjectLogHour.objects.filter(project=project_id)
+            print(project_loghour)
+            if project_loghour:
+                project_loghour_serializer = ProjectLogHourSerializer(project_loghour, many=True)
+                return Response({"projectLogHours":project_loghour_serializer.data})
+            else:
+                return Response({"message":"No record found"}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            return Response({"message : Bad Request"},status=status.HTTP_400_BAD_REQUEST)
+
+
