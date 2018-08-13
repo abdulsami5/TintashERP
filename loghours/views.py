@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import Loghours, ProjectLogHour
 from .serializers import LogHoursSerializer, ProjectLogHourSerializer
+from Users.decorators import has_role
 
 class LogHoursApiView(APIView):
     """ApiView for loghours"""
@@ -39,6 +40,7 @@ class LogHoursApiView(APIView):
 
 class ProjectLogHourApiView(APIView):
     """ApiView for Projectloghours"""
+    @has_role("Project Manager")
     def get(self, request, format=None):
         """This metthod will return projectlogohours of a project given project_id as parameter"""
         project_id = request.GET.get('project_id')
