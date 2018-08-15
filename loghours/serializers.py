@@ -14,4 +14,4 @@ class ProjectLogHourSerializer(serializers.ModelSerializer):
     class Meta:
         """Meta class to define model and fileds to serializer"""
         model = ProjectLogHour
-        fields = ("id", "pm_approval", "am_approval", "project")
+        fields = ("id", "date", "pm_approval", "am_approval", "project") 

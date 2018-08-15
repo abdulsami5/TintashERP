@@ -24,6 +24,21 @@ def has_role(role):
         return wrap
     return decorator
 
+def has_role_function(role):
+    """This decorator is to check \
+    the permission of user access the view function"""
+    def decorator(function):
+        def wrap(request, *args, **kwargs):
+            user = get_user(request)
+            if user:
+                if user.groups.filter(name=role).count()>0:
+                    return function(request)
+                else:
+                    raise PermissionDenied
+            else:
+                return Response({"message : Cant find user"},status=status.HTTP_400_BAD_REQUEST)
+        return wrap
+    return decorator
 
 def is_project_pm(function):
     """This decorator is to check if requesting user \
