@@ -4,7 +4,11 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import Loghours, ProjectLogHour
 from .serializers import LogHoursSerializer, ProjectLogHourSerializer
-from Users.decorators import has_role, is_project_pm
+from Users.decorators import has_role, is_project_pm, has_role_function
+from Users.views import get_user
+from project.models import Project
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.decorators import api_view
 
 class LogHoursApiView(APIView):
     """ApiView for loghours"""
@@ -66,3 +70,23 @@ class ProjectLogHourApiView(APIView):
         else:
           return Response({"message":project_loghour.errors},status = status.HTTP_403_FORBIDDEN)
 
+
+@csrf_exempt
+@api_view(['GET',])
+@has_role_function("Project Manager")
+def get_unapproved_hours(request):
+    """This api endpoint will return all unapproved project log hours of current
+        Project Manager"""
+    user = get_user(request)
+    print(user)
+    if user:
+        projects = Project.objects.filter(manager_id=user.id)
+        if projects:
+            log = ProjectLogHour.objects.filter(project_id__in=projects, pm_approval=False)
+            print(log)
+            project_loghour_serializer = ProjectLogHourSerializer(log, many=True)
+            return Response({"projectLogHours":project_loghour_serializer.data})
+        else:
+            return Response({"message : Bad Request"},status=status.HTTP_400_BAD_REQUEST)
+    else:
+        return Response({"message : Bad Request"},status=status.HTTP_400_BAD_REQUEST)
