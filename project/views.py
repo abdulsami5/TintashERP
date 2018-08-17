@@ -8,13 +8,15 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
 from django.db.models import Q
 import datetime
+from rest_framework import permissions
+from rest_framework.generics import GenericAPIView
 
 
 
 class ProjectApiView(APIView):
     """Project APIview to handle all restfull requests"""
     def get(self,request, format=None):
-        """This method will return either all projects or a signle proect if passed project_id as parameter"""
+        """This method will return either all projects or a single project if passed project_id as parameter"""
         project_id = request.GET.get('project_id')
         if project_id:
             project = Project.objects.filter(id=project_id)
