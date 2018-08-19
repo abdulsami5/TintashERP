@@ -43,10 +43,13 @@ def employee_project_request (request):
 @has_role_function("Employee")
 def employee_requests_all(request):
     """This method or api function will return all user_requets of employee, given employee_id as parameter"""
-    user_id = request.GET.get('user_id')
-    user_requests = UserProjectRequest.objects.filter(employee=user_id)
-    user_project_request_serializer = UserProjectRequestSerializer(user_requests, many=True)
-    return Response({"user_requests":user_project_request_serializer.data}, status=status.HTTP_200_OK)
+    #user_id = request.GET.get('user_id')
+    user = get_user(request)
+    if user:
+        user_requests = UserProjectRequest.objects.filter(employee=user.id)
+        user_project_request_serializer = UserProjectRequestSerializer(user_requests, many=True)
+        return Response({"user_requests":user_project_request_serializer.data}, status=status.HTTP_200_OK)
+    return Response({"message": "User not found"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @csrf_exempt
