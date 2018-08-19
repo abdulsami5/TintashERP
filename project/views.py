@@ -16,9 +16,9 @@ from Users.decorators import has_role, is_project_pm, has_role_function
 
 class ProjectApiView(APIView):
     """Project APIview to handle all restfull requests"""
+    @has_role("Employee")
     def get(self,request, format=None):
         """This method will return either all projects or a single project if passed project_id as parameter"""
-        @has_role("Employee")
         project_id = request.GET.get('project_id')
         if project_id:
             project = Project.objects.filter(id=project_id)
