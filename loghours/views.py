@@ -16,10 +16,11 @@ class LogHoursApiView(APIView):
     def get(self, request, format=None):
         """This method will return logohours of an employee given user_id and project_id as parameter"""
         project_id = request.GET.get('project_loghour_id')
-        user_id = request.GET.get('user_id')
+        user = get_user(request)
+        #user_id = request.GET.get('user_id')
         # project_id is id of Project log hour
-        if project_id and user_id:
-            logohours = Loghours.objects.filter(project_loghour=project_id, employee_id=user_id)
+        if project_id and user:
+            logohours = Loghours.objects.filter(project_loghour=project_id, employee_id=user.id)
             if logohours:
                 loghours_serializer = LogHoursSerializer(logohours, many=True)
             else:
