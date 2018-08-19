@@ -143,6 +143,41 @@
                         "description": "Project not found"
                     }
                 }
+            },
+            "post":{
+                "tags": [
+                    "loghours"
+                ],
+                "summary": "Add a new project loghour",
+                "description": "",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "lproject oghour object that needs to be added",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/projectloghour"
+                        }
+                    },
+                    {
+                        "in": "header",
+                        "name": "Authorization",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "405": {
+                        "description": "Invalid input"
+                    }
+                }
+
             }
         },
         "/pet/findByStatus": {
@@ -953,6 +988,25 @@
                     "format": "int32"
                 },
                 "project_loghour": {
+                    "type": "integer",
+                    "format": "int32"
+                }
+            }
+        },
+        "projectloghour": {
+            "type": "object",
+            "properties": {
+                "date": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "pm_approval": {
+                    "type": "boolean"
+                },
+                "am_approval": {
+                    "type": "boolean"
+                },
+                "project": {
                     "type": "integer",
                     "format": "int32"
                 }
