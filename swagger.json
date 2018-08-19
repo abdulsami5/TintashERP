@@ -212,6 +212,81 @@
                 }
             }
         },
+        "/project": {
+            "post": {
+                "tags": [
+                    "project"
+                ],
+                "summary": "Add a new project",
+                "description": "",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "project object that needs to be added",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/project"
+                        }
+                    },
+                    {
+                        "in": "header",
+                        "name": "Authorization",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "405": {
+                        "description": "Invalid input"
+                    }
+                }
+            },
+            "get": {
+                "tags":[
+                    "project"
+                ],
+                "summary": "get projects",
+                "description": "get all projects or by providing its id",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "project_id",
+                        "in": "query",
+                        "description": "id of project which is requested",
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "in": "header",
+                        "name": "Authorization",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/loghour"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid status value"
+                    }
+                }
+
+            }
+        },
         "/pet/findByTags": {
             "get": {
                 "tags": [
@@ -984,6 +1059,29 @@
                     "type": "boolean"
                 },
                 "project": {
+                    "type": "integer",
+                    "format": "int32"
+                }
+            }
+        },
+        "project": {
+            "type": "object",
+            "properties": {
+                "start_date": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "end_date": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "manager": {
                     "type": "integer",
                     "format": "int32"
                 }
