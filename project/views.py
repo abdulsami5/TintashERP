@@ -10,6 +10,7 @@ from django.db.models import Q
 import datetime
 from rest_framework import permissions
 from rest_framework.generics import GenericAPIView
+from Users.decorators import has_role, is_project_pm, has_role_function
 
 
 
@@ -29,6 +30,7 @@ class ProjectApiView(APIView):
             project_serializer = ProjectSerializer(projects, many=True)
         return Response({"data":project_serializer.data})
 
+    @has_role("Financial Controller")
     def post(self,request, format=None):
       """This method will crete a new project object """
       project_serializer = ProjectSerializer(data=request.data)
@@ -38,6 +40,7 @@ class ProjectApiView(APIView):
       else:
           return Response({"message":project_serializer.errors},status = status.HTTP_403_FORBIDDEN)
 
+    @has_role("Financial Controller")
     def put(self,request,format=None):
         """This method will be used to update project"""
         try:
@@ -52,6 +55,7 @@ class ProjectApiView(APIView):
         except Project.DoesNotExist:
             return Response({"message : Bad Request"},status=status.HTTP_400_BAD_REQUEST)
 
+    @has_role("Financial Controller")
     def delete(self,request,format=None):
         """This method will be used to delete a particular project"""
         try:
@@ -64,6 +68,7 @@ class ProjectApiView(APIView):
 
 @csrf_exempt
 @api_view(['GET',])
+@has_role_function("Financial Controller")
 def get_active_projects(request):
     """This method is to to get all the projects that are currently active"""
     today = datetime.datetime.today()
