@@ -7,10 +7,12 @@ from .models import *
 from project.models import *
 from .serializers import *
 from loghours.models import ProjectLogHour
+from Users.decorators import has_role, is_project_pm, has_role_function
 
 
 @csrf_exempt
 @api_view(['GET',])
+@has_role_function("Employee")
 def user_projects(request):
     """This method or api function will return all projects of employee, given employee_id as parameter"""
     user_id = request.GET.get('user_id')
@@ -21,6 +23,7 @@ def user_projects(request):
 
 @csrf_exempt
 @api_view(['POST',])
+@has_role_function("Employee")
 def employee_project_request (request):
     """This method or api function will create a user request to be added or removed from a particular project"""
     user_project_request_serializer = UserProjectRequestSerializer(data=request.data)
@@ -33,6 +36,7 @@ def employee_project_request (request):
 
 @csrf_exempt
 @api_view(['GET',])
+@has_role_function("Employee")
 def employee_requests_all(request):
     """This method or api function will return all user_requets of employee, given employee_id as parameter"""
     user_id = request.GET.get('user_id')
@@ -43,6 +47,7 @@ def employee_requests_all(request):
 
 @csrf_exempt
 @api_view(['POST'])
+@has_role_function("Project Manager")
 def request_response(request):
     """ This method or api is for pm to accept request for employees to be added to project"""
     data = request.data
@@ -69,6 +74,7 @@ def request_response(request):
 
 @csrf_exempt
 @api_view(['GET'])
+@has_role_function("Project Manager")
 def all_pending_project_requests(request):
     """This api end point will return all pending requests for a project that are yet to be approved or rejected, taking project_id as input"""
     project_id = request.GET.get("project_id")
@@ -81,6 +87,7 @@ def all_pending_project_requests(request):
 
 @csrf_exempt
 @api_view(['GET'])
+@has_role_function("Project Manager")
 def accept_log_hours(request):
     """This api end point is for project manager to accept weekly project log hours"""
     project_log_id = request.GET.get("project_log_id")
