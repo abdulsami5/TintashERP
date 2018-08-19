@@ -16,6 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework_swagger.views import get_swagger_view
+from .views import get_swagger_json
+
 
 schema_view = get_swagger_view(title='Demo Swagger API')
 
@@ -23,7 +25,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('project.urls')),
     path('auth/', include('rest_framework_social_oauth2.urls')),
-    path('api/',include('loghours.urls')),
-    path('api/',include('project_management.urls')),
+    path('api/', include('loghours.urls')),
+    path('api/', include('project_management.urls')),
     path('docs/', schema_view),
+    path('doc/', get_swagger_json)
 ]
