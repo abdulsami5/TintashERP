@@ -44,7 +44,6 @@
                 ],
                 "summary": "Add a new loghour",
                 "description": "",
-                "operationId": "addPet",
                 "consumes": [
                     "application/json"
                 ],
@@ -98,7 +97,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/Pet"
+                                "$ref": "#/definitions/loghour"
                             }
                         }
                     },
@@ -180,35 +179,21 @@
 
             }
         },
-        "/pet/findByStatus": {
+        "/unapprovedhour": {
             "get": {
                 "tags": [
-                    "pet"
+                    "loghours"
                 ],
-                "summary": "Finds Pets by status",
-                "description": "Multiple status values can be provided with comma separated strings",
-                "operationId": "findPetsByStatus",
+                "summary": "Get all unapproved log hours",
+                "description": "",
                 "produces": [
-                    "application/xml",
                     "application/json"
                 ],
                 "parameters": [
-                    {
-                        "name": "status",
-                        "in": "query",
-                        "description": "Status values that need to be considered for filter",
-                        "required": true,
-                        "type": "array",
-                        "items": {
-                            "type": "string",
-                            "enum": [
-                                "available",
-                                "pending",
-                                "sold"
-                            ],
-                            "default": "available"
-                        },
-                        "collectionFormat": "multi"
+                {
+                        "in": "header",
+                        "name": "Authorization",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -217,22 +202,14 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/Pet"
+                                "$ref": "#/definitions/projectloghour"
                             }
                         }
                     },
                     "400": {
-                        "description": "Invalid status value"
+                        "description": "Bad request"
                     }
-                },
-                "security": [
-                    {
-                        "petstore_auth": [
-                            "write:pets",
-                            "read:pets"
-                        ]
-                    }
-                ]
+                }
             }
         },
         "/pet/findByTags": {

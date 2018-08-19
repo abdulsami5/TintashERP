@@ -79,8 +79,7 @@ class ProjectLogHourApiView(APIView):
 @api_view(['GET',])
 @has_role_function("Project Manager")
 def get_unapproved_hours(request):
-    """This api endpoint will return all unapproved project log hours of current
-        Project Manager"""
+    """This api endpoint will return all unapproved project log hours of current Project Manager"""
     user = get_user(request)
     print(user)
     if user:
