@@ -125,6 +125,11 @@
                         "name": "project_id",
                         "description": "id of project whose log hours are required",
                         "required": true
+                    },
+                    {
+                        "in": "header",
+                        "name": "Authorization",
+                        "required": true
                     }
                 ],
                 "responses": {
