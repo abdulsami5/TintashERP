@@ -15,7 +15,7 @@ class LogHoursApiView(APIView):
     """ApiView for loghours"""
     def get(self, request, format=None):
         """This method will return logohours of an employee given user_id and project_id as parameter"""
-        project_id = request.GET.get('project_id')
+        project_id = request.GET.get('project_loghour_id')
         user_id = request.GET.get('user_id')
         # project_id is id of Project log hour
         if project_id and user_id:
@@ -35,6 +35,7 @@ class LogHoursApiView(APIView):
             loghours_serializer = LogHoursSerializer(logohours, many=True)
         return Response({"data":loghours_serializer.data})
 
+    @has_role("Financial Controller")
     def post(self, request, format=None):
       """ This ApiView function will be used to create new loghours entery for an employee"""
       loghours_serializer = LogHoursSerializer(data=request.data)
@@ -62,6 +63,7 @@ class ProjectLogHourApiView(APIView):
         else:
             return Response({"message : Bad Request"}, status=status.HTTP_400_BAD_REQUEST)
 
+    @has_role("Financial Controller")
     def post(self, request, format=None):
         """ This ApiView function will be used to create new ProjectLogHours entry for a project"""
         project_loghour = ProjectLogHourSerializer(data=request.data)
