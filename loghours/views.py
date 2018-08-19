@@ -14,7 +14,7 @@ from rest_framework.decorators import api_view
 class LogHoursApiView(APIView):
     """ApiView for loghours"""
     def get(self, request, format=None):
-        """This method will return logohours of an employee given user_id and project_id as parameter"""
+        """This method will return logohours of the employee given project_id as parameter"""
         project_id = request.GET.get('project_loghour_id')
         user = get_user(request)
         #user_id = request.GET.get('user_id')

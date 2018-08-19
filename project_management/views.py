@@ -8,17 +8,21 @@ from project.models import *
 from .serializers import *
 from loghours.models import ProjectLogHour
 from Users.decorators import has_role, is_project_pm, has_role_function
+from Users.views import get_user
 
 
 @csrf_exempt
 @api_view(['GET',])
 @has_role_function("Employee")
 def user_projects(request):
-    """This method or api function will return all projects of employee, given employee_id as parameter"""
-    user_id = request.GET.get('user_id')
-    user_projects = UserProject.objects.filter(employee=user_id)
-    user_projects_serializer = UserProjectSerializer(user_projects, many=True)
-    return Response({"user_projects":user_projects_serializer.data}, status=status.HTTP_200_OK)
+    """This method or api function will return all projects of employee"""
+    #user_id = request.GET.get('user_id')
+    user = get_user(request)
+    if user:
+        user_projects = UserProject.objects.filter(employee=user.id)
+        user_projects_serializer = UserProjectSerializer(user_projects, many=True)
+        return Response({"user_projects":user_projects_serializer.data}, status=status.HTTP_200_OK)
+    return Response({"message": "User not found"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @csrf_exempt
