@@ -28,7 +28,7 @@ def user_projects(request):
 @csrf_exempt
 @api_view(['POST',])
 @has_role_function("Employee")
-def employee_project_request (request):
+def employee_project_request(request):
     """This method or api function will create a user request to be added or removed from a particular project"""
     user_project_request_serializer = UserProjectRequestSerializer(data=request.data)
     if user_project_request_serializer.is_valid():
