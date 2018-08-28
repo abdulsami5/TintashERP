@@ -1,1 +1,1 @@
-web: gunicorn TintashERP.wsgi
+web: gunicorn TintashErp.wsgi
